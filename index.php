@@ -18,7 +18,7 @@
             break;
     }
 
-    $uid = isset($_GET['uid']) ? $_GET['uid'] : '';
+    $uid = $_GET['uid'];
     $DB = new DB();
     $user = $DB->getUser($uid);
     $name = $user['sub_name'].' '.$user['name'];
@@ -31,6 +31,9 @@
 
     $shared_link = $baseUrl.'?uid='.$uid;
 
+    if (isset($user['gift_id']))
+        $gift_received= $DB->getGift($user['gift_id']);
+
 ?>
 
 <!DOCTYPE html>
@@ -40,7 +43,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aptech | Thiệp chúc thi tốt</title>
 
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
@@ -59,25 +62,21 @@
         </div>
     </div>
 
-    <div id="congratulation-modal" class="modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content bg-transparent border-0 d-flex flex-column align-items-center">
-
-                <img src="./assets/img/logo.png" alt="">
-                <div class="pt-5">
-                    <h5 class="text-center text-gold">CHÚC MỪNG BẠN</h5>
-                    <h3 class="text-uppercase text-center text-gold"><?php echo $name ?></h3>
-                    <h5 class="text-center text-gold">NHẬN ĐƯỢC</h5>
-                </div>
-                <div class="my-2 congratulate-wrapper d-flex align-items-center justify-content-center w-100">
-                    <img class="congratulate w-50" src="./assets/img/" alt="">
-                </div>
-                <div class="footer d-flex flex-column align-items-center">
-                    <h5 class="gift-name text-gold text-center"></h5>
-                    <p class="text-white text-center text-thin-svn">Chia sẻ với bạn bè để cùng tham gia nhé</p>
-                    <div class="fb-share-button" data-href="<?php echo $shared_link ?>" data-layout="button" data-size="large"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Chia sẻ</a></div>
-                </div>
-
+    <div id="congratulation-modal" class="fixed-top border-0 d-flex justify-content-center invisible">
+        <div class="d-flex flex-column align-items-center mw-75">
+            <img class="mt-3" src="./assets/img/logo.png" alt="">
+            <div class="mt-4">
+                <h5 class="text-center text-gold">CHÚC MỪNG BẠN</h5>
+                <h3 class="text-uppercase text-center text-gold"><?php echo $name ?></h3>
+                <h5 class="text-center text-gold">NHẬN ĐƯỢC</h5>
+            </div>
+            <div class="my-2 congratulate-wrapper d-none align-items-center justify-content-center w-100 animate__animated animate__tada">
+                <img class="congratulate w-50" src="./assets/img/" alt="">
+            </div>
+            <div class="footer d-flex flex-column align-items-center mb-3 mt-auto">
+                <h5 class="gift-name text-gold text-center"></h5>
+                <p class="text-white text-center text-thin-svn">Chia sẻ với bạn bè để cùng tham gia nhé</p>
+                <div class="fb-share-button" data-href="<?php echo $shared_link ?>" data-layout="button" data-size="large"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Chia sẻ</a></div>
             </div>
         </div>
     </div>
@@ -93,6 +92,7 @@
     
     <!-- SCRIPT -->
     <script>
+        <?php if (!isset($user['gift_id'])) :?>
         let count = 0;
         document.querySelector('.bean').addEventListener('click', e => {
             const img = e.target;
@@ -118,28 +118,24 @@
                 type: 'POST',
                 dataType: 'json',
                 data: { uid: uid },
-                beforeSend: function() { loadSpinner() },
                 success: function(res) { congratulate(res) },
                 error: function(err) { console.log(err) }
             })
         }
+        <?php else :?>
+        congratulate({ gift: '<?php echo $gift_received['name'] ?>', img: '<?php echo $gift_received['img'] ?>' })
+        <?php endif; ?>
 
         function congratulate(rs) {
             console.log(rs)
             const congratulate = document.querySelector('.congratulate');
             congratulate.src = congratulate.src + rs.img;
             document.querySelector('.gift-name').innerHTML = rs.gift;
-            $('#congratulation-modal').modal('show');
+            document.querySelector('#congratulation-modal').classList.remove('invisible');
+            document.querySelector('#congratulation-modal').classList.add('visible');
+            document.querySelector('.congratulate-wrapper').classList.remove('d-none');
+            document.querySelector('.congratulate-wrapper').classList.add('d-flex');
         }
-
-        function loadSpinner() {
-
-        }
-
-        function endSpinner() {
-
-        }
-        
     </script>
 </body>
 </html>

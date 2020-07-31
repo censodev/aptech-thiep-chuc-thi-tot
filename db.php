@@ -25,21 +25,30 @@ class DB {
     $gift = $this->randGift();
 
     $gift_id = $gift['id'];
-    $gift_name = $gift['name'];
     $gift_quantity = $gift['quantity'] - 1;
 
-    // $sql = "update users set gift = '$gift_name' where uid = $uid";
-    // $stmt = $this->_db->prepare($sql);
-    // $stmt->execute();
+    $sql = "update users set gift_id = $gift_id where uid = $uid";
+    $stmt = $this->_db->prepare($sql);
+    $stmt->execute();
 
-    // $sql = "update gifts set quantity = $gift_quantity where id = $gift_id";
-    // $stmt = $this->_db->prepare($sql);
-    // $stmt->execute();
+    $sql = "update gifts set quantity = $gift_quantity where id = $gift_id";
+    $stmt = $this->_db->prepare($sql);
+    $stmt->execute();
 
     return $gift;
   }
   
-  protected function randGift() {
+  public function randGift() {
+    /**
+     * 5 x loa bluetooth
+     * 1 x bàn phím
+     * 3 x ổ cắm điện thông minh
+     * 10 x lót chuột
+     * 10 x balo
+     * 10 x  áo Aptech
+     * Không giới hạn đèn led, kẹo, bimbim
+     */
+    
     $id = rand(1, 9);
     $gift = $this->getGift($id);
   
@@ -49,7 +58,7 @@ class DB {
     return $gift;
   }
   
-  protected function getGift($id) {
+  public function getGift($id) {
     $sql = "select * from gifts where id = $id";
     $stmt = $this->_db->prepare($sql);
     $stmt->execute();

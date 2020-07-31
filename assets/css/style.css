@@ -85,7 +85,7 @@ body {
 
     /* height: 11rem; */
     height: 54%;
-    margin-left: 5rem;
+    margin-left: 4rem;
 }
 
 @keyframes shake {
@@ -129,4 +129,13 @@ body {
 
 .text-thin-svn {
     font-family: "svn-gotham-t" !important;
+}
+
+#congratulation-modal {
+    /* display: none; */
+    /* top: 0; */
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.85);
 }
