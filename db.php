@@ -27,13 +27,13 @@ class DB {
     $gift_id = $gift['id'];
     $gift_quantity = $gift['quantity'] - 1;
 
-    // $sql = "update users set gift_id = $gift_id where uid = $uid";
-    // $stmt = $this->_db->prepare($sql);
-    // $stmt->execute();
+    $sql = "update users set gift_id = $gift_id where uid = $uid";
+    $stmt = $this->_db->prepare($sql);
+    $stmt->execute();
 
-    // $sql = "update gifts set quantity = $gift_quantity where id = $gift_id";
-    // $stmt = $this->_db->prepare($sql);
-    // $stmt->execute();
+    $sql = "update gifts set quantity = $gift_quantity where id = $gift_id";
+    $stmt = $this->_db->prepare($sql);
+    $stmt->execute();
 
     return $gift;
   }
