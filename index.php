@@ -4,8 +4,8 @@
     if (!isset($_GET['uid']))
         die;
 
-    // $mode = 'DEV';
-    $mode = 'PROD';
+    $mode = 'DEV';
+    // $mode = 'PROD';
 
     $baseUrl = '';
     $ext = '';
