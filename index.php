@@ -8,10 +8,12 @@
     // $mode = 'PROD';
 
     $baseUrl = '';
+    $ext = '';
 
     switch ($mode) {
         case 'PROD': 
             $baseUrl = 'https://aptechvietnam.com.vn/thiepchucthitot';
+            $ext = '.min';
             break;
         case 'DEV': 
             $baseUrl = 'http://'.$_SERVER['HTTP_HOST'].'/thiepchucthitot';
@@ -22,7 +24,6 @@
     $DB = new DB();
     $user = $DB->getUser($uid);
     $name = $user['sub_name'].' '.$user['name'];
-
 
     $submitUrl = $baseUrl.'/submit.php';
 
@@ -49,7 +50,8 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/style<?php echo $ext ?>.css">
+    <link rel="stylesheet" href="./assets/css/firework<?php echo $ext ?>.css">
 </head>
 <body>
     <div class="d-flex flex-column align-items-center wrapper">
@@ -77,12 +79,17 @@
             <div class="my-2 congratulate-wrapper d-none align-items-center justify-content-center w-100 animate__animated animate__tada">
                 <img class="congratulate" src="./assets/img/" alt="">
             </div>
+            <h5 class="gift-name text-gold text-center"></h5>
             <div class="footer d-flex flex-column align-items-center mb-3 mt-auto">
-                <h5 class="gift-name text-gold text-center"></h5>
                 <p class="text-white text-center text-thin-svn">Chia sẻ với bạn bè để cùng tham gia nhé</p>
                 <div class="fb-share-button" data-href="<?php echo $shared_link ?>" data-layout="button" data-size="large"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Chia sẻ</a></div>
             </div>
         </div>
+    </div>
+
+    <div class="pyro invisible">
+        <div class="before"></div>
+        <div class="after"></div>
     </div>
 
     <!-- FB SDK -->
@@ -137,6 +144,8 @@
             document.querySelector('.gift-name').innerHTML = rs.gift;
             document.querySelector('#congratulation-modal').classList.remove('invisible');
             document.querySelector('#congratulation-modal').classList.add('visible');
+            document.querySelector('.pyro').classList.remove('invisible');
+            document.querySelector('.pyro').classList.add('visible');
             document.querySelector('.congratulate-wrapper').classList.remove('d-none');
             document.querySelector('.congratulate-wrapper').classList.add('d-flex');
             if (rs.img == 'ban-phim.png')
