@@ -106,6 +106,8 @@
         <?php if (!isset($user['gift_id'])) :?>
         let count = 0;
         document.querySelector('.bean').addEventListener('click', e => {
+            const crackSound = new sound('./assets/audio/crack.wav');
+            crackSound.play();
             const img = e.target;
             switch(count) {
                 case 0:
@@ -138,7 +140,6 @@
         <?php endif; ?>
 
         function congratulate(rs) {
-            console.log(rs)
             const congratulate = document.querySelector('.congratulate');
             congratulate.src = congratulate.src + rs.img;
             document.querySelector('.gift-name').innerHTML = rs.gift;
@@ -152,6 +153,23 @@
                 document.querySelector('.congratulate').style.width = '70%'
             if (rs.img == 'balo.png')
                 document.querySelector('.congratulate').style.width = '45%'
+            const tada = new sound('./assets/audio/tada.mp3')
+            tada.play();
+        }
+
+        function sound(src) {
+            this.sound = document.createElement("audio");
+            this.sound.src = src;
+            this.sound.setAttribute("preload", "auto");
+            this.sound.setAttribute("controls", "none");
+            this.sound.style.display = "none";
+            document.body.appendChild(this.sound);
+            this.play = function(){
+                this.sound.play();
+            }
+            this.stop = function(){
+                this.sound.pause();
+            }
         }
     </script>
 </body>
