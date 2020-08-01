@@ -11,7 +11,7 @@
 
     switch ($mode) {
         case 'PROD': 
-            $baseUrl = 'https://aptechvietnam.com.vn';
+            $baseUrl = 'https://aptechvietnam.com.vn/thiepchucthitot';
             break;
         case 'DEV': 
             $baseUrl = 'http://'.$_SERVER['HTTP_HOST'].'/thiepchucthitot';
@@ -34,6 +34,8 @@
     if (isset($user['gift_id']))
         $gift_received= $DB->getGift($user['gift_id']);
 
+    $shared_bg_url = $baseUrl.'/assets/img/shared_bg.png';
+
 ?>
 
 <!DOCTYPE html>
@@ -42,6 +44,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aptech | Thiệp chúc thi tốt</title>
+
+    <meta property="og:image" content="<?php echo $shared_bg_url ?>" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
@@ -71,7 +75,7 @@
                 <h5 class="text-center text-gold">NHẬN ĐƯỢC</h5>
             </div>
             <div class="my-2 congratulate-wrapper d-none align-items-center justify-content-center w-100 animate__animated animate__tada">
-                <img class="congratulate w-50" src="./assets/img/" alt="">
+                <img class="congratulate" src="./assets/img/" alt="">
             </div>
             <div class="footer d-flex flex-column align-items-center mb-3 mt-auto">
                 <h5 class="gift-name text-gold text-center"></h5>
@@ -135,6 +139,10 @@
             document.querySelector('#congratulation-modal').classList.add('visible');
             document.querySelector('.congratulate-wrapper').classList.remove('d-none');
             document.querySelector('.congratulate-wrapper').classList.add('d-flex');
+            if (rs.img == 'ban-phim.png')
+                document.querySelector('.congratulate').style.width = '70%'
+            if (rs.img == 'balo.png')
+                document.querySelector('.congratulate').style.width = '45%'
         }
     </script>
 </body>

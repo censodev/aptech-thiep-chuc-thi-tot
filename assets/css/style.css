@@ -43,6 +43,7 @@ body {
 
 .wrapper {
     height: 100vh;
+    cursor: url('../img/spoon.png'), auto;	;
 }
 
 .loi-chuc {
@@ -62,6 +63,21 @@ body {
     font-size: 2.5rem;
     line-height: 2rem;
     color: #d30009;
+}
+
+@media (max-width: 425px) {
+    .loi-chuc p {
+        font-size: 1.5rem;
+        line-height: 1rem;
+        margin-top: 0.5rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .loi-chuc p {
+        font-size: 1rem;
+        margin-top: 1rem;
+    }
 }
 
 .hello {
@@ -125,6 +141,7 @@ body {
 
 .congratulate {
     max-height: 100% !important;
+    width: 50%;
 }
 
 .text-thin-svn {
